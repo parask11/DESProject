@@ -1,0 +1,46 @@
+a)using R language 
+b)for group of 4-5 ,a topic will be choosen not more than 3 times and submit code with short summary/report on result analysis(not more than 5-7 pages) will be submitted before 8th nov. the report will have introduction and result analysis. The list of group with topic choosen need to be sent to me by 22 oct 2019
+c)two group can choose same topic but they have to choose different application
+d)use any dataset except iris , you can use kaggle data or generate synthetic data on existing dataset in R or data like
+Traffic queues, passenger check-in queues, security queues, bank-teller queues, supermarket queue i.e queueing modelling data
+e)for simulation refer to law kelton's book
+
+
+1. click stream analysis(analyze web navigation behavior of user) and visualization using higher order markov classes on online store data.
+
+2.synthetic data generation from existing dataset in r thereby apply any machine learning algorithm (synthpop) and perform distribution analysis(visualize and compare distribution )
+
+3.Use a mixture model (gaussian) as a learning algorithm on any dataset and perform distribution analysis of datasets(visualize and compare distribution)
+
+4.Estimate the parameters of continuous time markov chain for any suitable application
+
+5.Apply discrete event simulation on any real set of data. (for example dmv wait data.)
+
+
+Format for report : introduction to the problem and related work done by others, result analysis and conclusion lastly references. For project on simulation they can also refer to steps to study of simulation given in law and kelton book
+
+
+library(simmer)
+env <- simmer("outpatient clinic")
+env
+patient <- trajectory("patients' path") %>%
+  seize("nurse",1) %>%
+  timeout(function() rnorm(1,15)) %>%
+  release("nurse",1) %>%
+  
+  seize("doctor",1) %>%
+  timeout(function() rnorm(1,20)) %>%
+  release("doctor",1) %>%
+  
+  seize("administration",1) %>%
+  timeout(function() rnorm(1,5)) %>%
+  release("administration",1) 
+
+env %>%
+  
+  add_resource("nurse",2) %>%
+  add_resource("doctor",3) %>%
+  add_resource("administration",2) %>%
+  add_generator("patient", patient, function() rnorm(1,5,0.5))
+
+env %>% run(until=540)
